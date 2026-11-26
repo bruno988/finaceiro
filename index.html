@@ -9,23 +9,10 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="auth-screen" class="auth-screen">
-      <main class="auth-card">
-        <p class="eyebrow">MEU FLUXO</p>
-        <h1>Seu dinheiro, visto com clareza.</h1>
-        <p class="muted">Informe seu e-mail para receber um link seguro de acesso.</p>
-        <form id="auth-form" class="stack">
-          <label>E-mail<input id="email" type="email" autocomplete="email" required placeholder="voce@email.com" /></label>
-          <button type="submit">Enviar link de acesso</button>
-        </form>
-        <p id="auth-message" class="message" aria-live="polite"></p>
-      </main>
-    </div>
-
-    <div id="app" hidden>
+    <div id="app">
       <header class="topbar">
         <div><p class="eyebrow">MEU FLUXO</p><h1>Visão geral</h1></div>
-        <div class="topbar-actions"><span id="user-email" class="muted"></span><button id="logout-button" class="secondary">Sair</button></div>
+        <div class="topbar-actions"><button id="export-button" class="secondary">Exportar backup</button><label class="secondary file-button">Importar backup<input id="import-input" type="file" accept="application/json" hidden /></label></div>
       </header>
       <main>
         <section class="month-bar">
@@ -66,7 +53,6 @@
         <section class="panel"><p class="eyebrow">HISTÓRICO</p><h2>Lançamentos do mês</h2><div id="transactions-list" class="records"></div></section>
       </main>
     </div>
-    <script src="config.js"></script>
     <script type="module" src="app.js"></script>
   </body>
 </html>

@@ -1,25 +1,14 @@
 # Meu Fluxo
 
-Aplicação pessoal para acompanhar receitas, despesas e investimentos. O frontend foi feito para ser hospedado gratuitamente no GitHub Pages e os dados ficam protegidos no Supabase.
+Aplicação pessoal para acompanhar receitas, despesas e investimentos. Ela funciona gratuitamente no GitHub Pages e salva os dados apenas no navegador em uso.
 
 ## O que já está pronto
 
-- Login sem senha: um link de acesso é enviado ao seu e-mail.
+- Sem login, senha ou e-mail.
 - Lançamentos de receitas e despesas por categoria.
 - Resumo mensal, saldo, categorias de despesas e análises automáticas.
 - Cadastro do valor atual dos investimentos.
-- Segurança por linha (RLS): cada conta só lê e altera os próprios dados.
-
-## Configurar o Supabase
-
-1. Crie um projeto em [Supabase](https://supabase.com/dashboard).
-2. Em **SQL Editor**, execute todo o conteúdo de `supabase/schema.sql`.
-3. Em **Authentication > Providers > Email**, mantenha o provedor Email ativo.
-4. Em **Authentication > Users**, use **Add user** para enviar um convite ao seu único e-mail. Não habilite o cadastro público.
-5. Em **Project Settings > API**, copie a **Project URL** e a chave **anon public**.
-6. Preencha a URL e a chave ANON em `config.js`. Esse arquivo pode ser publicado: a chave ANON foi feita para uso no navegador, desde que as políticas RLS estejam ativas.
-
-> Nunca use a chave `service_role` no navegador ou no GitHub. A chave `anon` só é segura porque o banco usa as políticas RLS criadas no passo 2.
+- Backup em arquivo JSON, para guardar e restaurar os dados quando precisar.
 
 ## Rodar localmente
 
@@ -28,8 +17,6 @@ Abra a pasta com um servidor estático. Por exemplo, com a extensão Live Server
 ## Publicar no GitHub Pages
 
 1. Crie um repositório privado no GitHub e envie estes arquivos.
-2. Confirme que `config.js` contém a URL e a chave **anon public** do seu projeto; ele precisa ir junto com o site.
+2. Nenhuma configuração adicional é necessária.
 3. No repositório, abra **Settings > Pages**, selecione **Deploy from a branch**, a branch `main` e a pasta `/ (root)`.
-4. No Supabase, em **Authentication > URL Configuration**, inclua a URL final do GitHub Pages em **Site URL** e em **Redirect URLs**.
-
-Para um projeto estritamente pessoal, você também pode manter o repositório privado. A URL do site é pública quando publicada pelo GitHub Pages; o acesso aos dados exige o link recebido por e-mail e é isolado pelas políticas do Supabase.
+Os dados ficam salvos no navegador. Use **Exportar backup** regularmente e guarde o arquivo JSON em um local seguro. Para restaurar depois ou em outro computador, use **Importar backup**.
