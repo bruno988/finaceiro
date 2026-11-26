@@ -4,7 +4,7 @@ Aplicação pessoal para acompanhar receitas, despesas e investimentos. O fronte
 
 ## O que já está pronto
 
-- Login por e-mail e senha, para uma única conta pessoal.
+- Login sem senha: um link de acesso é enviado ao seu e-mail.
 - Lançamentos de receitas e despesas por categoria.
 - Resumo mensal, saldo, categorias de despesas e análises automáticas.
 - Cadastro do valor atual dos investimentos.
@@ -15,7 +15,7 @@ Aplicação pessoal para acompanhar receitas, despesas e investimentos. O fronte
 1. Crie um projeto em [Supabase](https://supabase.com/dashboard).
 2. Em **SQL Editor**, execute todo o conteúdo de `supabase/schema.sql`.
 3. Em **Authentication > Providers > Email**, mantenha o provedor Email ativo.
-4. Em **Authentication > Users**, use **Add user** para criar manualmente sua única conta, escolhendo seu e-mail e senha. Não habilite o cadastro público.
+4. Em **Authentication > Users**, use **Add user** para enviar um convite ao seu único e-mail. Não habilite o cadastro público.
 5. Em **Project Settings > API**, copie a **Project URL** e a chave **anon public**.
 6. Preencha a URL e a chave ANON em `config.js`. Esse arquivo pode ser publicado: a chave ANON foi feita para uso no navegador, desde que as políticas RLS estejam ativas.
 
@@ -32,4 +32,4 @@ Abra a pasta com um servidor estático. Por exemplo, com a extensão Live Server
 3. No repositório, abra **Settings > Pages**, selecione **Deploy from a branch**, a branch `main` e a pasta `/ (root)`.
 4. No Supabase, em **Authentication > URL Configuration**, inclua a URL final do GitHub Pages em **Site URL** e em **Redirect URLs**.
 
-Para um projeto estritamente pessoal, você também pode manter o repositório privado. A URL do site é pública quando publicada pelo GitHub Pages; o acesso aos dados continua exigindo login e é isolado pelas políticas do Supabase.
+Para um projeto estritamente pessoal, você também pode manter o repositório privado. A URL do site é pública quando publicada pelo GitHub Pages; o acesso aos dados exige o link recebido por e-mail e é isolado pelas políticas do Supabase.

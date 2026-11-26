@@ -7,16 +7,9 @@ let supabase;
 let currentUser;
 let transactions = [];
 let investments = [];
-let passwordRecovery = false;
 
 function showAuthMessage(message, error = true) {
   const target = $("#auth-message");
-  target.textContent = message;
-  target.style.color = error ? "var(--red)" : "var(--green)";
-}
-
-function showRecoveryMessage(message, error = true) {
-  const target = $("#recovery-message");
   target.textContent = message;
   target.style.color = error ? "var(--red)" : "var(--green)";
 }
@@ -82,51 +75,27 @@ async function initialize() {
     return;
   }
   supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
-  const queryParams = new URLSearchParams(window.location.search);
-  const hashParams = new URLSearchParams(window.location.hash.slice(1));
-  passwordRecovery = queryParams.get("type") === "recovery" || hashParams.get("type") === "recovery";
-  supabase.auth.onAuthStateChange((event, sessionValue) => {
-    if (event === "PASSWORD_RECOVERY") passwordRecovery = true;
-    if (event === "SIGNED_OUT") passwordRecovery = false;
-    setSession(sessionValue);
-  });
+  supabase.auth.onAuthStateChange((_event, sessionValue) => setSession(sessionValue));
   const { data: { session } } = await supabase.auth.getSession();
   await setSession(session);
 }
 
 async function setSession(session) {
   currentUser = session?.user;
-  $("#recovery-screen").hidden = !passwordRecovery;
-  $("#auth-screen").hidden = Boolean(currentUser) || passwordRecovery;
-  $("#app").hidden = !currentUser || passwordRecovery;
+  $("#auth-screen").hidden = Boolean(currentUser);
+  $("#app").hidden = !currentUser;
   if (currentUser) { $("#user-email").textContent = currentUser.email; await loadData(); }
 }
 
 $("#auth-form").addEventListener("submit", async event => {
-  event.preventDefault(); if (!supabase) return;
-  const { error } = await supabase.auth.signInWithPassword({ email: $("#email").value, password: $("#password").value });
-  if (error) showAuthMessage(error.message);
-});
-$("#forgot-password-button").addEventListener("click", async () => {
+  event.preventDefault();
   if (!supabase) return;
   const email = $("#email").value.trim();
-  if (!email) return showAuthMessage("Digite seu e-mail antes de solicitar a redefinição.");
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}${window.location.pathname}`
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}` }
   });
-  showAuthMessage(error?.message || "Enviamos um link para você criar uma nova senha. Confira seu e-mail.", Boolean(error));
-});
-$("#recovery-form").addEventListener("submit", async event => {
-  event.preventDefault();
-  const newPassword = $("#new-password").value;
-  if (newPassword !== $("#confirm-password").value) return showRecoveryMessage("As senhas não coincidem.");
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
-  if (error) return showRecoveryMessage(error.message);
-  passwordRecovery = false;
-  event.target.reset();
-  showAuthMessage("Senha atualizada. Entre com sua nova senha.", false);
-  await supabase.auth.signOut();
-  await setSession(null);
+  showAuthMessage(error?.message || "Enviamos seu link de acesso. Abra o e-mail mais recente para entrar.", Boolean(error));
 });
 $("#logout-button").addEventListener("click", () => supabase.auth.signOut());
 $("#reference-month").addEventListener("change", loadData);
