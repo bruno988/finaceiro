@@ -82,14 +82,16 @@ async function initialize() {
     return;
   }
   supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
-  passwordRecovery = new URLSearchParams(window.location.hash.slice(1)).get("type") === "recovery";
-  const { data: { session } } = await supabase.auth.getSession();
-  await setSession(session);
+  const queryParams = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  passwordRecovery = queryParams.get("type") === "recovery" || hashParams.get("type") === "recovery";
   supabase.auth.onAuthStateChange((event, sessionValue) => {
     if (event === "PASSWORD_RECOVERY") passwordRecovery = true;
     if (event === "SIGNED_OUT") passwordRecovery = false;
     setSession(sessionValue);
   });
+  const { data: { session } } = await supabase.auth.getSession();
+  await setSession(session);
 }
 
 async function setSession(session) {
