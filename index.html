@@ -18,7 +18,22 @@
           <label>Senha<input id="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Mínimo de 6 caracteres" /></label>
           <button type="submit">Entrar</button>
         </form>
+        <button id="forgot-password-button" class="text-button" type="button">Esqueci minha senha</button>
         <p id="auth-message" class="message" aria-live="polite"></p>
+      </main>
+    </div>
+
+    <div id="recovery-screen" class="auth-screen" hidden>
+      <main class="auth-card">
+        <p class="eyebrow">MEU FLUXO</p>
+        <h1>Crie uma nova senha</h1>
+        <p class="muted">Escolha uma senha nova para acessar sua conta.</p>
+        <form id="recovery-form" class="stack">
+          <label>Nova senha<input id="new-password" type="password" autocomplete="new-password" required minlength="6" placeholder="Mínimo de 6 caracteres" /></label>
+          <label>Confirme a nova senha<input id="confirm-password" type="password" autocomplete="new-password" required minlength="6" placeholder="Digite novamente" /></label>
+          <button type="submit">Salvar nova senha</button>
+        </form>
+        <p id="recovery-message" class="message" aria-live="polite"></p>
       </main>
     </div>
 
