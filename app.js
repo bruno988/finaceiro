@@ -109,7 +109,9 @@ $("#forgot-password-button").addEventListener("click", async () => {
   if (!supabase) return;
   const email = $("#email").value.trim();
   if (!email) return showAuthMessage("Digite seu e-mail antes de solicitar a redefinição.");
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}${window.location.pathname}`
+  });
   showAuthMessage(error?.message || "Enviamos um link para você criar uma nova senha. Confira seu e-mail.", Boolean(error));
 });
 $("#recovery-form").addEventListener("submit", async event => {
